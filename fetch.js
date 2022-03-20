@@ -16,17 +16,15 @@ let finaltt
 //recherche #crypto et like les 40 premiers tweets
 const reseachtwitt = async () => {
     await client.v2.search('#crypto', {
-        'max_results': '40',
-        'expansions': 'author_id'
+        'max_results': '50',
+        'expansions': 'author_id',
     }).then((val) => {
         //console.log(val)
         for (let element = 0; element < val._realData.data.length; element++) {
             ajoutlike = val._realData.data[element].id;
             console.log(ajoutlike)
-
             client.v2.like(process.env.TWITTER_ID, ajoutlike).then((res) => {
-
-                console.log("success")
+                console.log("tweet" + ajoutlike + "liked")
             })
                 .catch(err => {
                     console.error(err)
@@ -80,7 +78,8 @@ let diffPrice = (o, o2) => {
             saveNP.indice = obj.symbol;
             saveNP.prix = obj.current_price;
             saveNewPrice.push(saveNP);
-            result = Math.round(((obj.current_price - o[i].prix) / o[i].prix) * 100);
+            let calc = ((obj.current_price - o[i].prix) / o[i].prix) * 100
+            result = Math.round((calc + Number.EPSILON) * 100) / 100
             let posNum = Math.sign(result);
             if (posNum == 1) {
                 result = '+' + result;
@@ -104,8 +103,8 @@ let diffPrice = (o, o2) => {
 
     //tweet//
     client.v2.tweet(finaltt).then((val) => {
-        console.log(val)
-        console.log("success")
+        //console.log(val)
+        console.log("tweet tweeted")
     })
         .catch(err => {
             console.error(err)
