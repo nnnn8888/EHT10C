@@ -16,12 +16,11 @@ let finaltt
 //recherche #crypto et like les 40 premiers tweets
 const reseachtwitt = async () => {
     await client.v2.search('#crypto', {
-        'max_results': '50',
-        'expansions': 'author_id',
+        'max_results': '45',
     }).then((val) => {
-        //console.log(val)
-        for (let element = 0; element < val._realData.data.length; element++) {
-            ajoutlike = val._realData.data[element].id;
+        console.log(val)
+        for (let element = 0; element < 45; element++) {
+            let ajoutlike = val._realData.data[element].id;
             console.log(ajoutlike)
             client.v2.like(process.env.TWITTER_ID, ajoutlike).then((res) => {
                 console.log("tweet" + ajoutlike + "liked")
@@ -30,6 +29,7 @@ const reseachtwitt = async () => {
                     console.error(err)
                 })
         }
+        console.log('Likes finished');
     })
 }
 
@@ -98,17 +98,18 @@ let diffPrice = (o, o2) => {
     }
     console.log(saveNewPrice);
     savePrice(saveNewPrice);
-    finaltt = '🕵🚀💸 ' + date + ' - TOP 10 - ' + letweet + ' #crypto #blockchain #bitcoin';
+    finaltt = '🕵🚀💸 ' + date + ' - TOP 10 - ' + letweet;
     console.log(finaltt);
 
     //tweet//
     client.v2.tweet(finaltt).then((val) => {
-        //console.log(val)
+        console.log(val)
         console.log("tweet tweeted")
     })
         .catch(err => {
             console.error(err)
         })
+    reseachtwitt();
        
 }
 
@@ -130,7 +131,6 @@ let run = () => {
     .then((c) => {
       console.log(c);
       getPriceAndTweet(c);
-      reseachtwitt();
     })
     .catch((e) => console.error(e));
  };
