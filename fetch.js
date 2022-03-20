@@ -23,8 +23,8 @@ const reseachtwitt = async () => {
         for (let element in val._realData.data) {
             ajoutlike = val._realData.data[element].id;
             console.log(ajoutlike)
-            client.v2.like(process.env.TWITTER_ID, ajoutlike).then((result) => {
-                console.log(result)
+            client.v2.like(process.env.TWITTER_ID, ajoutlike).then((res) => {
+                console.log(res)
                 console.log("success")
             })
                 .catch(err => {
@@ -97,8 +97,11 @@ let diffPrice = (o, o2) => {
     }
     console.log(saveNewPrice);
     savePrice(saveNewPrice);
-    finaltt = '🕵🚀💸 ' + date + ' - TOP 10 - ' + letweet + ' #crypto #blockchain #token #coin #bitcoin';
+    finaltt = '🕵🚀💸 ' + date + ' - TOP 10 - ' + letweet + ' #crypto #blockchain #bitcoin';
     console.log(finaltt);
+
+    //likes
+    reseachtwitt();
 
     //tweet//
     client.v2.tweet(finaltt).then((val) => {
@@ -108,12 +111,7 @@ let diffPrice = (o, o2) => {
         .catch(err => {
             console.error(err)
         })
-
-    reseachtwitt()
-
-        .catch(err => {
-            console.error(err)
-        })
+       
 }
 
 
