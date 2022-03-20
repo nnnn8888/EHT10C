@@ -19,12 +19,13 @@ const reseachtwitt = async () => {
         'max_results': '40',
         'expansions': 'author_id'
     }).then((val) => {
-        //console.log(val._realData.data[0])
-        for (let element in val._realData.data) {
+        //console.log(val)
+        for (let element = 0; element < val._realData.data.length; element++) {
             ajoutlike = val._realData.data[element].id;
             console.log(ajoutlike)
+
             client.v2.like(process.env.TWITTER_ID, ajoutlike).then((res) => {
-                console.log(res)
+
                 console.log("success")
             })
                 .catch(err => {
@@ -33,6 +34,7 @@ const reseachtwitt = async () => {
         }
     })
 }
+
 
 //sauvegarde le dernier fetch prix top 10 dans le fichier save.json
 const savePrice = (save) => {
@@ -100,9 +102,6 @@ let diffPrice = (o, o2) => {
     finaltt = '🕵🚀💸 ' + date + ' - TOP 10 - ' + letweet + ' #crypto #blockchain #bitcoin';
     console.log(finaltt);
 
-    //likes
-    reseachtwitt();
-
     //tweet//
     client.v2.tweet(finaltt).then((val) => {
         console.log(val)
@@ -132,6 +131,7 @@ let run = () => {
     .then((c) => {
       console.log(c);
       getPriceAndTweet(c);
+      reseachtwitt();
     })
     .catch((e) => console.error(e));
  };
