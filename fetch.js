@@ -16,10 +16,10 @@ let finaltt
 //recherche #crypto et like les 40 premiers tweets
 const reseachtwitt = async () => {
     await client.v2.search('#crypto', {
-        'max_results': '45',
+        'max_results': '40',
     }).then((val) => {
-        console.log(val)
-        for (let element = 0; element < 45; element++) {
+        //console.log(val)
+        for (let element = 0; element < 40; element++) {
             let ajoutlike = val._realData.data[element].id;
             console.log(ajoutlike)
             client.v2.like(process.env.TWITTER_ID, ajoutlike).then((res) => {
@@ -69,10 +69,11 @@ let diffPrice = (o, o2) => {
     console.log(o);
     //pour chaque element présent dans l'ancien top10 on le cherche dans le nouveau fecth et on fait la différence des prix
     for (let i = 0; i < o.length; i++) {
-        console.log(o[i].indice);
+        //console.log(o[i].indice);
         let obj = o2.find((data) => data.symbol === o[i].indice);
-        //console.log(typeof obj);
-        if (obj) {
+        //console.log(obj.symbol);
+        //console.log(obj.symbol != 'usdt');
+        if (obj.symbol != 'usdt' && obj.symbol != 'usdc') {            
             console.log(obj.current_price);
             let saveNP = new Object();
             saveNP.indice = obj.symbol;
@@ -98,18 +99,17 @@ let diffPrice = (o, o2) => {
     }
     console.log(saveNewPrice);
     savePrice(saveNewPrice);
-    finaltt = '🕵🚀💸 ' + date + ' - TOP 10 - ' + letweet;
+    finaltt = '🚀💸 ' + date + ' - TOP 10 - ' + letweet + '#bitcoin';
     console.log(finaltt);
 
     //tweet//
     client.v2.tweet(finaltt).then((val) => {
-        console.log(val)
+        //console.log(val)
         console.log("tweet tweeted")
     })
         .catch(err => {
             console.error(err)
         })
-    reseachtwitt();
        
 }
 
@@ -129,11 +129,11 @@ const getPriceAndTweet = (a) => {
 let run = () => {
     oldPrice()
     .then((c) => {
-      console.log(c);
+      //console.log(c);
       getPriceAndTweet(c);
     })
     .catch((e) => console.error(e));
  };
 run();
 setInterval(run, 3600000);
-  
+setInterval(reseachtwitt, 1140000);
