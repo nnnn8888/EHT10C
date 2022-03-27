@@ -71,9 +71,7 @@ let diffPrice = (o, o2) => {
     for (let i = 0; i < o.length; i++) {
         //console.log(o[i].indice);
         let obj = o2.find((data) => data.symbol === o[i].indice);
-        //console.log(obj.symbol);
-        //console.log(obj.symbol != 'usdt');
-        if (obj.symbol != 'usdt' && obj.symbol != 'usdc') {            
+        if (obj && obj.symbol != 'usdt' && obj.symbol != 'usdc') {            
             console.log(obj.current_price);
             let saveNP = new Object();
             saveNP.indice = obj.symbol;
@@ -103,13 +101,13 @@ let diffPrice = (o, o2) => {
     console.log(finaltt);
 
     //tweet//
-    client.v2.tweet(finaltt).then((val) => {
-        //console.log(val)
-        console.log("tweet tweeted")
-    })
-        .catch(err => {
-            console.error(err)
-        })
+    // client.v2.tweet(finaltt).then((val) => {
+    //     //console.log(val)
+    //     console.log("tweet tweeted")
+    // })
+    //     .catch(err => {
+    //         console.error(err)
+    //     })
        
 }
 
@@ -118,6 +116,7 @@ const getPriceAndTweet = (a) => {
     fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10')
         .then(res => res.json())
         .then(json => {
+            console.log(json);
             diffPrice(a, json);
 
 
@@ -135,5 +134,5 @@ let run = () => {
     .catch((e) => console.error(e));
  };
 run();
-setInterval(run, 3600000);
+setInterval(run, 30000);
 // setInterval(reseachtwitt, 1140000);
