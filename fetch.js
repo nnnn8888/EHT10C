@@ -101,13 +101,13 @@ let diffPrice = (o, o2) => {
     console.log(finaltt);
 
     //tweet//
-    // client.v2.tweet(finaltt).then((val) => {
-    //     //console.log(val)
-    //     console.log("tweet tweeted")
-    // })
-    //     .catch(err => {
-    //         console.error(err)
-    //     })
+    client.v2.tweet(finaltt).then((val) => {
+        //console.log(val)
+        console.log("tweet tweeted")
+    })
+        .catch(err => {
+            console.error(err)
+        })
        
 }
 
@@ -134,5 +134,5 @@ let run = () => {
     .catch((e) => console.error(e));
  };
 run();
-setInterval(run, 30000);
+setInterval(run, 3600000);
 // setInterval(reseachtwitt, 1140000);
