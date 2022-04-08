@@ -20,12 +20,12 @@ const reseachtwitt = async () => {
         'expansions': 'author_id',
     });
     //console.log(searchTw);
-    for (let tweet of searchTw._realData.data) {
-        //console.log(tweet);
-        let tw = tweet.id
+    for (let twt in searchTw._realData.data) {
+        //console.log(twt);
+        let tw = searchTw._realData.data[twt].id
         console.log(tw);
-        client.v2.like(process.env.TWITTER_ID, tw);
-        console.log(tw + " liked")
+        const likett  = await client.v2.like(process.env.TWITTER_ID, tw);
+        console.log(likett)
     }
     console.log('Likes finished');
 
@@ -104,8 +104,7 @@ let diffPrice = (o, o2) => {
         //console.log(val)
         console.log("tweet tweeted")
     })
-    //like
-    reseachtwitt()
+    
 
         .catch(err => {
             console.error(err)
@@ -132,6 +131,8 @@ let run = () => {
     .then((c) => {
       //console.log(c);
       getPriceAndTweet(c);
+      //like
+        reseachtwitt()
       
     })
     .catch((e) => console.error(e));
