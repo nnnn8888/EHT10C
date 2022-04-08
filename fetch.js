@@ -14,23 +14,23 @@ let result
 let finaltt
 
 //recherche #crypto et like les 40 premiers tweets
-const reseachtwitt = async () => {
-    await client.v2.search('#crypto', { 
-        'max_results': '10',
-        'expansions': 'author_id'
-     }).then((val) => {
-    console.log(val)
-    for (let element of val) {         
-        ajoutlike = element.id;
-        console.log(ajoutlike)
-        client.v2.like(process.env.TWITTER_ID, ajoutlike).then((result) => {
-            console.log(result)
-            console.log("success")})
-            .catch(err => {
-            console.error(err)
-        })
-        }
-})}
+// const reseachtwitt = async () => {
+//     await client.v2.search('#crypto', { 
+//         'max_results': '10',
+//         'expansions': 'author_id'
+//      }).then((val) => {
+//     console.log(val)
+//     for (let element of val) {         
+//         ajoutlike = element.id;
+//         console.log(ajoutlike)
+//         client.v2.like(process.env.TWITTER_ID, ajoutlike).then((result) => {
+//             console.log(result)
+//             console.log("success")})
+//             .catch(err => {
+//             console.error(err)
+//         })
+//         }
+// })}
 
 
 //sauvegarde le dernier fetch prix top 10 dans le fichier save.json
@@ -132,7 +132,7 @@ let run = () => {
       //console.log(c);
       getPriceAndTweet(c);
       //like
-      reseachtwitt();
+      //reseachtwitt();
     })
     .catch((e) => console.error(e));
  };
