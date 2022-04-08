@@ -14,21 +14,21 @@ let result
 let finaltt
 
 //recherche #crypto et like les 40 premiers tweets
-const reseachtwitt = async () => {
-    const searchTw = await client.v2.search('#bitcoin', {
-        'max_results': '10',
-        'expansions': 'author_id',
-    });
-    //console.log(searchTw);
-    for (let tweet of searchTw) {
-        //console.log(tweet.id);
-        await client.v2.like(process.env.TWITTER_ID, tweet.id);
-        console.log(tweet.id + " liked")
-    }
-    console.log('Likes finished');
+// const reseachtwitt = async () => {
+//     const searchTw = await client.v2.search('#bitcoin', {
+//         'max_results': '10',
+//         'expansions': 'author_id',
+//     });
+//     //console.log(searchTw);
+//     for (let tweet of searchTw) {
+//         //console.log(tweet.id);
+//         await client.v2.like(process.env.TWITTER_ID, tweet.id);
+//         console.log(tweet.id + " liked")
+//     }
+//     console.log('Likes finished');
 
 
-}
+// }
 
 
 //sauvegarde le dernier fetch prix top 10 dans le fichier save.json
@@ -132,4 +132,4 @@ let run = () => {
  };
 run();
 setInterval(run, 3600000);
-setInterval(reseachtwitt, 1800000);
+// setInterval(reseachtwitt, 1800000);
