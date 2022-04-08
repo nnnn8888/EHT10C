@@ -14,23 +14,21 @@ let result
 let finaltt
 
 //recherche #crypto et like les 40 premiers tweets
-const reseachtwitt = async ()=>{
-    await client.v2.search('#crypto', { 
-        'max_results': '10',
+const reseachtwitt = async () => {
+    const rsch = await client.v2.search('#bitcoin', {
+        'max_results': '40',
         'expansions': 'author_id'
-     }).then((val) => {
-    //console.log(val._realData.data[0])
-    for (let element in val._realData.data) {         
-        ajoutlike = val._realData.data[element].id;
+    })
+
+    //console.log(rsch)
+    for (let element of rsch) {
+        ajoutlike = element.id;
         console.log(ajoutlike)
-        client.v2.like(process.env.TWITTER_ID, ajoutlike).then((result) => {
-            console.log(result)
-            console.log("success")})
-            .catch(err => {
-            console.error(err)
-        })
-        }
-})}
+        const ll = await client.v2.like(process.env.TWITTER_ID, ajoutlike)
+        console.log(ajoutlike + ll)
+
+    }
+}
 
 
 //sauvegarde le dernier fetch prix top 10 dans le fichier save.json
@@ -70,7 +68,7 @@ let diffPrice = (o, o2) => {
     for (let i = 0; i < o.length; i++) {
         //console.log(o[i].indice);
         let obj = o2.find((data) => data.symbol === o[i].indice);
-        if (obj && obj.symbol != 'usdt' && obj.symbol != 'usdc') {            
+        if (obj && obj.symbol != 'usdt' && obj.symbol != 'usdc') {
             console.log(obj.current_price);
             let saveNP = new Object();
             saveNP.indice = obj.symbol;
@@ -104,12 +102,10 @@ let diffPrice = (o, o2) => {
         //console.log(val)
         console.log("tweet tweeted")
     })
-    
-
-        .catch(err => {
+    .catch(err => {
             console.error(err)
         })
-       
+
 }
 
 
@@ -117,7 +113,7 @@ const getPriceAndTweet = (a) => {
     fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10')
         .then(res => res.json())
         .then(json => {
-            console.log(json);
+            //console.log(json);
             diffPrice(a, json);
 
 
@@ -128,13 +124,13 @@ const getPriceAndTweet = (a) => {
 
 let run = () => {
     oldPrice()
-    .then((c) => {
-      //console.log(c);
-      getPriceAndTweet(c);
-      //like
-      //reseachtwitt();
-    })
-    .catch((e) => console.error(e));
- };
+        .then((c) => {
+            //console.log(c);
+            getPriceAndTweet(c);
+            //like
+            reseachtwitt();
+        })
+        .catch((e) => console.error(e));
+};
 run();
 setInterval(run, 3600000);
