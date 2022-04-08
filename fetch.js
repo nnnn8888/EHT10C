@@ -132,7 +132,7 @@ let run = () => {
       //console.log(c);
       getPriceAndTweet(c);
       //like
-      reseachtwitt();
+      //reseachtwitt();
     })
     .catch((e) => console.error(e));
  };
