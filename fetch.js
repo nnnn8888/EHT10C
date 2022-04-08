@@ -20,16 +20,18 @@ const reseachtwitt = async () => {
         'expansions': 'author_id',
     });
     //console.log(searchTw);
-    for (let twt in searchTw._realData.data) {
+    for (const twt of searchTw) {
         //console.log(twt);
-        let tw = searchTw._realData.data[twt].id
+        let tw = twt.id
         console.log(tw);
-        const likett  = await client.v2.like(process.env.TWITTER_ID, tw);
-        console.log(likett)
+        client.v2.like(process.env.TWITTER_ID, tw).then((val) => {
+            console.log(val)
+        })
+        .catch(err => {
+                console.error(err)
+            })
+
     }
-    console.log('Likes finished');
-
-
 }
 
 
