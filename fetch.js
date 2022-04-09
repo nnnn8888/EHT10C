@@ -16,7 +16,7 @@ let finaltt
 //recherche #crypto et like les 40 premiers tweets
 const reseachtwitt = async () => {
     const rsch = await client.v2.search('#bitcoin', {
-        'max_results': '40',
+        'max_results': '14',
         'expansions': 'author_id'
     })
 
@@ -127,10 +127,10 @@ let run = () => {
         .then((c) => {
             //console.log(c);
             getPriceAndTweet(c);
-            //like
-            reseachtwitt();
+            
         })
         .catch((e) => console.error(e));
 };
 run();
 setInterval(run, 3600000);
+setInterval(reseachtwitt, 43200000);
