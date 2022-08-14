@@ -50,7 +50,7 @@ let diffPrice = (o, o2) => {
     for (let i = 0; i < o.length; i++) {
         //console.log(o[i].indice);
         let obj = o2.find((data) => data.symbol === o[i].indice);
-        if (obj && obj.symbol != 'usdt' && obj.symbol != 'usdc') {
+        if (obj && obj.symbol != 'usdt' && obj.symbol != 'usdc' && obj.symbol != 'busd') {
             console.log(obj.current_price);
             let saveNP = new Object();
             saveNP.indice = obj.symbol;

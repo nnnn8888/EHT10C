@@ -1,0 +1,7 @@
+wiki
+git status
+git add . pour ajouter les files 
+git commit -m "message"
+git push
+heroku login
+git push heroku main pour pousser sur Heroku
