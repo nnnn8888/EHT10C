@@ -38,6 +38,8 @@ const oldPrice = () => {
     })
 }
 
+
+
 //compare les prix de l'ancien top 10 contenu dans save.json au nouveau qui vient d'etre fetch. Renvoi la différence l'implément dans une chaine de caractère et envoi le nouveau tweet
 let diffPrice = (o, o2) => {
     const today = new Date();
@@ -46,30 +48,35 @@ let diffPrice = (o, o2) => {
     let saveNewPrice = [];
 
     console.log(o);
+    //console.log(o2);
     //pour chaque element présent dans l'ancien top10 on le cherche dans le nouveau fecth et on fait la différence des prix
-    for (let i = 0; i < o.length; i++) {
-        //console.log(o[i].indice);
-        let obj = o2.find((data) => data.symbol === o[i].indice);
-        if (obj && obj.symbol != 'usdt' && obj.symbol != 'usdc' && obj.symbol != 'busd') {
-            console.log(obj.current_price);
+    for (let i = 0; i < o2.length; i++) {
+        console.log(o2[i].symbol);
+        let obj = o.find(({ indice }) => indice === o2[i].symbol);
+        console.log(obj);
+        if (obj && obj.indice != 'usdt' && obj.indice != 'usdc' && obj.indice != 'busd') {
+            console.log(obj.indice);
+            console.log(o2[i].current_price);
             let saveNP = new Object();
-            saveNP.indice = obj.symbol;
-            saveNP.prix = obj.current_price;
+            saveNP.indice = o2[i].symbol;
+            saveNP.prix = o2[i].current_price;
             saveNewPrice.push(saveNP);
-            let calc = ((obj.current_price - o[i].prix) / o[i].prix) * 100
+            let calc = ((o2[i].current_price - obj.prix) / obj.prix) * 100
             result = Math.round((calc + Number.EPSILON) * 100) / 100
             let posNum = Math.sign(result);
             if (posNum == 1) {
                 result = '+' + result;
             }
             console.log(result);
-            letweet = letweet + `$${obj.symbol.toUpperCase()}: ${obj.current_price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} ${result}% | `;
+            letweet = letweet + `$${o2[i].symbol.toUpperCase()}: ${o2[i].current_price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} ${result}% | `;
         } else {
             console.log('pas de comparaison possible');
-            let saveNP = new Object();
-            saveNP.indice = o2[i].symbol;
-            saveNP.prix = o2[i].current_price;
-            saveNewPrice.push(saveNP);
+            let saveNP2 = new Object();
+            saveNP2.indice = o2[i].symbol;
+            console.log('symbole sans comparaison:' + saveNP2.indice);
+            saveNP2.prix = o2[i].current_price;
+            console.log('prix sans comparaison:' + saveNP2.prix);
+            saveNewPrice.push(saveNP2);
             letweet = letweet + `$${o2[i].symbol.toUpperCase()}: ${o2[i].current_price.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} | `;
         }
         //console.log(letweet);
@@ -79,7 +86,7 @@ let diffPrice = (o, o2) => {
     finaltt = '🚀💸 ' + date + ' - TOP 10 - ' + letweet + '#bitcoin';
     console.log(finaltt);
 
-    //tweet//
+    // //tweet//
     client.v2.tweet(finaltt).then((val) => {
         //console.log(val)
         console.log("tweet tweeted")
